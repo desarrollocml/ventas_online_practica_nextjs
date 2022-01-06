@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import "../styles/globals.css";
+import { StoreProvider } from "../utils/Store";
 
 function MyApp({ Component, pageProps }) {
   //--- Corregir error de material-ui ---
@@ -10,7 +11,12 @@ function MyApp({ Component, pageProps }) {
     }
   }, []);
   //--- Fin Corregir error de material-ui ---
-  return <Component {...pageProps} />;
+  return (
+    <StoreProvider>
+      <Component {...pageProps} />;
+    </StoreProvider>
+
+  )
 }
 
 export default MyApp;
