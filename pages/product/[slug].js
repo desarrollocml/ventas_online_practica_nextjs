@@ -1,5 +1,4 @@
-/* import { useRouter } from "next/router";
-import data from "../../utils/data"; */
+import { useRouter } from "next/router";
 import NextLink from "next/link";
 import Image from "next/image";
 import {
@@ -20,6 +19,7 @@ import axios from "axios";
 import { Store } from "../../utils/Store";
 
 export default function ProductScreen(props) {
+  const router = useRouter();
   const { dispatch } = useContext(Store);
   const { product } = props;
   const classes = useStyles();
@@ -35,6 +35,7 @@ export default function ProductScreen(props) {
       return;
     }
     dispatch({ type: "CART_ADD_ITEM", payload: { ...product, quantity: 1 } });
+    router.push("/cart");
   };
 
   return (
