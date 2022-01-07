@@ -1,8 +1,9 @@
-import React, { useContext } from 'react';
-import Layout from '../components/Layout';
-import { Store } from '../utils/Store';
-import NextLink from 'next/link';
-import Image from 'next/image';
+import React, { useContext } from "react";
+import dynamic from 'next/dynamic';
+import Layout from "../components/Layout";
+import { Store } from "../utils/Store";
+import NextLink from "next/link";
+import Image from "next/image";
 import {
   Grid,
   TableContainer,
@@ -19,9 +20,9 @@ import {
   Card,
   List,
   ListItem,
-} from '@material-ui/core';
+} from "@material-ui/core";
 
-export default function CartScreen() {
+function CartScreen() {
   const { state } = useContext(Store);
   const {
     cart: { cartItems },
@@ -99,7 +100,7 @@ export default function CartScreen() {
               <List>
                 <ListItem>
                   <Typography variant="h2">
-                    Subtotal ({cartItems.reduce((a, c) => a + c.quantity, 0)}{' '}
+                    Subtotal ({cartItems.reduce((a, c) => a + c.quantity, 0)}{" "}
                     items) : $
                     {cartItems.reduce((a, c) => a + c.quantity * c.price, 0)}
                   </Typography>
@@ -117,3 +118,5 @@ export default function CartScreen() {
     </Layout>
   );
 }
+
+export default dynamic(() => Promise.resolve(CartScreen), { ssr: false });
