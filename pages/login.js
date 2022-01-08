@@ -7,12 +7,25 @@ import {
   Link,
 } from "@material-ui/core";
 import axios from "axios";
+import { useRouter } from "next/router";
 import NextLink from "next/link";
 import Layout from "../components/Layout";
 import useStyles from "../utils/styles";
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
+import { Store } from "../utils/Store";
+import Cookies from "js-cookie";
 
 export default function Login() {
+  const router = useRouter();
+  const { redirect } = router.query; //login?redirect=/shipping
+  const { state, dispatch } = useContext(Store);
+  const { userInfo } = state;
+  useEffect(() => {
+    if (userInfo) {
+      router.push("/");
+    }
+  }, []);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const classes = useStyles();
@@ -24,7 +37,9 @@ export default function Login() {
         email,
         password,
       });
-      alert("success login");
+      dispatch({ type: "USER_LOGIN", payload: data });
+      Cookies.set("userInfo", data);
+      router.push(redirect || "/");
     } catch (error) {
       alert(error.response.data ? error.response.data.message : error.message);
     }
@@ -54,7 +69,7 @@ export default function Login() {
               id="password"
               label="Password"
               inputProps={{ type: "password" }}
-              onChange={(e)=> setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
             ></TextField>
           </ListItem>
           <ListItem>
