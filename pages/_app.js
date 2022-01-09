@@ -1,3 +1,4 @@
+import { SnackbarProvider } from "notistack";
 import { useEffect } from "react";
 import "../styles/globals.css";
 import { StoreProvider } from "../utils/Store";
@@ -12,11 +13,12 @@ function MyApp({ Component, pageProps }) {
   }, []);
   //--- Fin Corregir error de material-ui ---
   return (
-    <StoreProvider>
-      <Component {...pageProps} />;
-    </StoreProvider>
-
-  )
+    <SnackbarProvider anchorOrigin={{ vertical: "top", horizontal: "center" }}>
+      <StoreProvider>
+        <Component {...pageProps} />;
+      </StoreProvider>
+    </SnackbarProvider>
+  );
 }
 
 export default MyApp;
